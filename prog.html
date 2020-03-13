@@ -89,13 +89,17 @@
 
 		var tabMax = new Array(7.24, 12, 11.45, 18, 10, 10);
 
+		// timer
+		var temps = 0;
+
+
 		
 		//Graphique
 		var ctx = document.getElementById('myChart').getContext('2d');
 		var chart = new Chart(ctx, {
 			type: 'line',
     		data: {
-		    labels: ["-40 sec", "-30 sec", "-20 sec", "-10 sec", "0 sec"],
+		    labels: ["0 sec","-10 sec","-20 sec","-30 sec","-40 sec"],
 		        datasets: [{
 		            label: 'Protéines',
 		            borderColor: 'rgb(255, 99, 132)',
@@ -175,22 +179,28 @@
 
 			for (var i=0; i < chart.data.datasets.length; i++) {
 
-				for (var k = 1 ; k < chart.data.datasets[i].data.length ; k++) {
+				for (var k = chart.data.datasets[i].data.length ; k >= 0  ; k--) {
 					
-					chart.data.datasets[i].data[k-1] = chart.data.datasets[i].data[k];
+					chart.data.datasets[i].data[k+1] = chart.data.datasets[i].data[k];
 
 				}
 
 				var val = getRandomArbitrary(tabMin[i], tabMax[i]);
-				chart.data.datasets[i].data[chart.data.datasets[i].data.length-1] = val;
+				chart.data.datasets[i].data[0] = val;
 				document.getElementsByClassName("val").item(i+1).innerHTML=String(val.toFixed(2));
 
 			}
 
 			chart.update();
 		}
+		function changertmps(chart){
+			temps++
+			for (var i = 0; i < chart.data.labels.length; i++) {
+				chart.data.labels[i] = String((temps - i) * 10) + " sec";
+			}
+			chart.update();	
+		}
 
-		
 		
 		// Corps du programme
 		initChart(chart);
@@ -199,8 +209,8 @@
 
 			document.getElementsByClassName("val").item(0).innerHTML=String(getRandomArbitrary(89, 91).toFixed(2));
 			updateChart(chart);
-
-		},10000);
+			changertmps(chart);
+		},1000);
 
 	</script>
 </body>
