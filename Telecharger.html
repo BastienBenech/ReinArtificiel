@@ -1,0 +1,31 @@
+<HTML>
+
+<HEAD>
+ <title>Telechargement</title>
+</HEAD>
+<BODY>
+<script language="JavaScript"> 
+	composants = new Array("Nom :","Débit sang","Protéines","Glucide","Eau","Lipides","Urée","Acide urique");
+	chiffres = new Array("Taux",0,0,0,0,0,0,0);
+	</script>
+	<Table>
+	<tr>
+		<script language="JavaScript">
+		for (i = 0; i < composants.length; i++)
+		{
+			document.write("<td>",composants[i],"</td>")
+		}
+		</script>
+	</tr>
+	<tr>
+		<script language="JavaScript">
+		for (i = 0; i < chiffres.length; i++)
+		{
+			document.write("<td>",chiffres[i],"</td>")
+		}
+
+		</script>
+	</tr>
+</table>
+</BODY>
+</HTML>
