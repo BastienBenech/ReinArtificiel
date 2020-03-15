@@ -1,31 +1,53 @@
 <HTML>
-
 <HEAD>
- <title>Telechargement</title>
+	<meta charset="utf-8">
+ 	<title>Telechargement</title>
 </HEAD>
 <BODY>
-<script language="JavaScript"> 
-	composants = new Array("Nom :","Débit sang","Protéines","Glucide","Eau","Lipides","Urée","Acide urique");
-	chiffres = new Array("Taux",0,0,0,0,0,0,0);
-	</script>
-	<Table>
-	<tr>
-		<script language="JavaScript">
-		for (i = 0; i < composants.length; i++)
-		{
-			document.write("<td>",composants[i],"</td>")
-		}
-		</script>
-	</tr>
-	<tr>
-		<script language="JavaScript">
-		for (i = 0; i < chiffres.length; i++)
-		{
-			document.write("<td>",chiffres[i],"</td>")
-		}
+	<script language="JavaScript">
 
-		</script>
-	</tr>
-</table>
+		composants = new Array("Nom :","Débit sang","Protéines","Glucide","Eau","Lipides","Urée","Acide urique");
+		chiffres = new Array("Taux",0,0,0,0,0,0,0);
+
+		var tab = JSON.parse(window.localStorage.getItem('cle'));
+
+		chiffres[1] = tab.DebitSang;
+		chiffres[2] = tab.Proteines;
+		chiffres[3] = tab.Clucides;
+		chiffres[4] = tab.Eau;
+		chiffres[5] = tab.Lipides; 
+		chiffres[6] = tab.Uree;
+		chiffres[7] = tab.AcideUrique;
+
+
+	</script>
+
+	<h1><center> Benech-Ithurbide Medical </center></h1>
+
+	<div>
+		<Table style="border: 1px double black;">
+			<tr>
+				<script language="JavaScript">
+	
+					for (i = 0; i < composants.length; i++)
+					{
+						document.write("<td>",composants[i],"</td>")
+					}
+	
+				</script>
+			</tr>
+			<tr>
+				<script language="JavaScript">
+	
+					for (i = 0; i < chiffres.length; i++)
+					{
+						document.write("<td>",chiffres[i],"</td>")
+					}
+	
+				</script>
+			</tr>
+		</table>
+	</div>
+	
 </BODY>
 </HTML>

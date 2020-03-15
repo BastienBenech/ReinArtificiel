@@ -83,19 +83,25 @@
 	</div>
 	
 
-	<!-- Début du code JavaScript,  -->
+	<!-- Début du code JavaScript, donc de la partie qui rend le code intéractif et dynamique -->
 
 	<script>
 
-		// Tableau des données à respecter pour la composition du sang
+		//--------------------------------------------------------------------------------------------------------------
+		// Déclaration des variables
+		//--------------------------------------------------------------------------------------------------------------
+
+		// Tableaux des normes à respecter pour la composition du sang
 		// Protéines, Glucides, Eau, Lipides, Urée, Acide urique
 		var tabNormeMin = new Array(3.2, 8, 8.47, 13, 0, 0);
 		var tabNormeMax = new Array(7.24, 12, 11.45, 18, 10, 10);
 
-		// Tableau des données simulées de la composition du sang (avec une plage plus large afin de simuler des erreurs)
+		// Tableaux des données simulées de la composition du sang (avec une plage plus large afin de simuler des erreurs)
 		// Protéines, Glucides, Eau, Lipides, Urée, Acide urique
-		var tabDonneMin = new Array(3, 7, 8, 12, 0, 0);
-		var tabDonneMax = new Array(8, 13, 12, 19, 11, 11);
+		var tabDonneeMin = new Array(3, 7, 8, 12, 0, 0);
+		var tabDonneeMax = new Array(8, 13, 12, 19, 11, 11);
+
+		var tabNouvVal = new Array();
 
 
 		// timer
@@ -107,7 +113,7 @@
 		var chart = new Chart(ctx, {
 			type: 'line',
     		data: {
-		    labels: ["0 sec","-10 sec","-20 sec","-30 sec","-40 sec"],
+		    labels: ["-40 sec", "-30 sec", "-20 sec", "-10 sec", "0 sec"],
 		        datasets: [{
 		            label: 'Protéines',
 		            borderColor: 'rgb(255, 99, 132)',
@@ -163,6 +169,10 @@
 		});
 
 
+		//--------------------------------------------------------------------------------------------------------------
+		// Déclaration et définition des fonctions
+		//--------------------------------------------------------------------------------------------------------------
+
 		function getRandomArbitrary(min, max) {
   			return Math.random() * (max - min) + min;
 		}
@@ -170,15 +180,16 @@
 
 		function initChart(chart) {
 
-			for (var i=0; i < chart.data.datasets.length; i++) {
+			for (var i = 0; i < chart.data.datasets.length; i++) {
 
 				for (var k = 0; k < chart.data.datasets[i].data.length; k++) {
 					
-					var val = getRandomArbitrary(tabMin[i], tabMax[i]);
+					var val = getRandomArbitrary(tabDonneeMin[i], tabDonneeMax[i]);
 					chart.data.datasets[i].data[k] = val;
 
 				}
 
+				tabNouvVal[i] = val.toFixed(2);
 				document.getElementsByClassName("val").item(0).innerHTML=String(getRandomArbitrary(89, 91).toFixed(2));
 				document.getElementsByClassName("val").item(i+1).innerHTML=String(val.toFixed(2));
 
@@ -190,17 +201,17 @@
 
 		function updateChart(chart) {
 
-			for (var i=0; i < chart.data.datasets.length; i++) {
+			for (var i = 0; i < chart.data.datasets.length; i++) {
 
-				for (var k = chart.data.datasets[i].data.length ; k >= 0  ; k--) {
+				for (var k = chart.data.datasets[i].data.length; k >= 0; k--) {
 					
 					chart.data.datasets[i].data[k+1] = chart.data.datasets[i].data[k];
 
 				}
 
-				var val = getRandomArbitrary(tabMin[i], tabMax[i]);
-				chart.data.datasets[i].data[0] = val;
-				document.getElementsByClassName("val").item(i+1).innerHTML=String(val.toFixed(2));
+				tabNouvVal[i] = getRandomArbitrary(tabDonneeMin[i], tabDonneeMax[i]);
+				chart.data.datasets[i].data[0] = tabNouvVal[i];
+				document.getElementsByClassName("val").item(i+1).innerHTML=String(tabNouvVal[i].toFixed(2));
 
 			}
 
@@ -208,17 +219,67 @@
 		}
 
 
-		function changertmps(chart){
-			temps++
-			for (var i = 0; i < chart.data.labels.length; i++) {
-				chart.data.labels[i] = String((temps - i) * 10) + " sec";
+		function testerErreur(chart) {
+
+			for (var i = 0; i < tabNouvVal.length; i++) {
+
+				if (tabNouvVal[i] > tabNormeMax[i] | tabNouvVal[i] < tabNormeMin[i]) {
+
+					document.getElementsByClassName("donnee").item(i).setAttribute("class","donneeMauvaise");
+
+				}
+
 			}
+
+		}
+
+
+		function initErreur() {
+
+			var tabMauvais = document.getElementsByClassName("donneeMauvaise");
+
+			for (var i = 0; i < tabMauvais.length; i++) {
+
+				document.getElementsByClassName("donneeMauvaise").item(i).setAttribute("class","donnee");
+
+			}
+
+		}
+
+
+		function changertmps(chart){
+
+			temps++
+
+			for (var i = 0; i < chart.data.labels.length; i++) {
+
+				chart.data.labels[i] = String((temps - i) * 10) + " sec";
+
+			}
+
 			chart.update();	
 		}
 
 
 		function RedirectionJavascript(){
-  			document.location.href="Telecharger.html"; 
+
+			window.sessionStorage.clear();
+
+			var tabJSON = {
+				DebitSang: document.getElementsByClassName("val").item(0).textContent,
+				Proteines: tabNouvVal[0],
+				Clucides: tabNouvVal[1],
+				Eau: tabNouvVal[2],
+				Lipides: tabNouvVal[3],
+				Uree: tabNouvVal[4],
+				AcideUrique: tabNouvVal[5]
+			}
+
+			var tabStorage = JSON.stringify(tabJSON);
+
+			window.localStorage.setItem('cle',tabStorage);
+
+  			window.open("Telecharger.html", "_blank"); 
 		}
 
 
@@ -231,9 +292,19 @@
 		setInterval(function() {
 
 			document.getElementsByClassName("val").item(0).innerHTML=String(getRandomArbitrary(89, 91).toFixed(2));
+
 			updateChart(chart);
+
+			initErreur();
+			// console.log(document.getElementsByClassName("donnee"));			
+			// console.log(document.getElementsByClassName("donneeMauvaise"));			
+			testerErreur(chart);
+			// console.log(document.getElementsByClassName("donnee"));			
+			// console.log(document.getElementsByClassName("donneeMauvaise"));
+
 			changertmps(chart);
-		},1000);
+
+		},10000);
 
 	</script>
 </body>
