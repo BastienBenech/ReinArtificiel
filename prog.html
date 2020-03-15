@@ -90,6 +90,9 @@
 
 	<script>
 
+	function getRandomArbitrary(min, max) {
+		return Math.random() * (max - min) + min;
+	}
 	// Tableau des données à respecter pour la composition du sang
 	// Protéines, Glucides, Eau, Lipides, Urée, Acide urique
 	var tabNormeMin = new Array(3.2, 8, 8.47, 13, 0, 0);
@@ -222,6 +225,10 @@ function changertmps(chart){
 // Corps du programme
 initChart(chart); // appel de la fonction pour initialer le graphe et les valeurs
 
+function RedirectionJavascript(){
+	document.location.href="Telecharger.html";
+
+}
 setInterval(function() {
 
 	document.getElementsByClassName("val").item(0).innerHTML=String(getRandomArbitrary(89, 91).toFixed(2)); //
