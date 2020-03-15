@@ -12,6 +12,7 @@
 .line {
     display: flex;
     align-items: center;
+    margin: -5px;
 }
 
 .donnee {
@@ -24,12 +25,28 @@
     left: 180px;
 }
 
+.donneeMauvaise {
+    display: flex;
+    border: 1px double black;
+    padding-inline: 5px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    position: absolute;
+    left: 180px;
+    background-color: red;
+}
+
 .val {
     margin: 0px;
 }
 
 .unite {
     margin: 0px;
+}
+
+#chart {
+    width: 100%;
+    max-width: 1000px;
 }
 
 #debitSang {

@@ -9,11 +9,13 @@
 <body>
 	<h1><center> Benech-Ithurbide Medical </center></h1>
 
+	<!-- Création des formulaires des compositions du sang -->
+
 	<div id="donnees">
 		<div class="line">
 			<p id="debitSang">Débit de sang :</p>
 			<p class="val">...</p>
-			<p>&nbspmL/min</p>
+			<p>&nbspmL/min</p> 	<!-- Renvoie ml/min -->
 		</div>
 
 		<div class="cadre">
@@ -73,42 +75,43 @@
 		</div>
 	</div>
 
-	<div style="width: 100%">
+	<!-- Case qui contient le Graphique -->
+	<div id="chart">
 		<canvas id="myChart"></canvas>
 	</div>
 
+	<!-- Bouton qui redirige vers la page de telechargement des données -->
 	<div>
 		<input id="Tele" type="button" name="Telecharger" onclick="RedirectionJavascript()" value="Telecharger les données">
 	</div>
 
+
+	<!-- Début du code JavaScript,  -->
+
 	<script>
 
-	function getRandomArbitrary(min, max) {
-		return Math.random() * (max - min) + min;
-	}
-
-
+	// Tableau des données à respecter pour la composition du sang
 	// Protéines, Glucides, Eau, Lipides, Urée, Acide urique
-	var tabMin = new Array(3.2, 8, 8.47, 13, 0, 0);
+	var tabNormeMin = new Array(3.2, 8, 8.47, 13, 0, 0);
+	var tabNormeMax = new Array(7.24, 12, 11.45, 18, 10, 10);
 
-	var tabMax = new Array(7.24, 12, 11.45, 18, 10, 10);
+	// Tableau des données simulées de la composition du sang (avec une plage plus large afin de simuler des erreurs)
+	// Protéines, Glucides, Eau, Lipides, Urée, Acide urique
+	var tabDonneMin = new Array(3, 7, 8, 12, 0, 0);
+	var tabDonneMax = new Array(8, 13, 12, 19, 11, 11);
+
 
 	// timer
 	var temps = 0;
-
-	// Tableau des données
-	function sendArray(){
-		document.forms[0].elements['transArray'].value=tabMax;
-		return true;
-	}
 
 
 	//Graphique
 	var ctx = document.getElementById('myChart').getContext('2d');
 	var chart = new Chart(ctx, {
-		type: 'line',
+		type: 'line', //creation d'un tableau de type ligne
 		data: {
-			labels: ["0 sec","-10 sec","-20 sec","-30 sec","-40 sec"],
+			labels: ["0 sec","-10 sec","-20 sec","-30 sec","-40 sec"], //initialisation des valeurs en x sur le graphe
+			// Les datasets correspondants à chaques lignes tracées
 			datasets: [{
 				label: 'Protéines',
 				borderColor: 'rgb(255, 99, 132)',
@@ -154,43 +157,48 @@
 	options: {
 		legend:{
 			display: true,
-			position: 'bottom'
+			position: 'bottom' // la légende se situe en bas du graphe
 		},
 		title:{
 			display: true,
-			text: "Analyses du sang"
+			text: "Analyses du sang" // titre du graphe
 		}
 	}
 });
 
+// methode qui retourne un nombre aléatoire entre des valeurs définis
+function getRandomArbitrary(min, max) {
+	return Math.random() * (max - min) + min;
+}
 
+// initialise les valeurs dans chaques formulaires des compositions et les affiche sur le graphe
 function initChart(chart) {
 
 	for (var i=0; i < chart.data.datasets.length; i++) {
 
 		for (var k = 0; k < chart.data.datasets[i].data.length; k++) {
 
-			var val = getRandomArbitrary(tabMin[i], tabMax[i]);
-			chart.data.datasets[i].data[k] = val;
+			var val = getRandomArbitrary(tabMin[i], tabMax[i]); // appel de la fonction aléatoire
+			chart.data.datasets[i].data[k] = val; // definition d'une valeur aléatoire dans chaques formulaires
 
 		}
 
 		document.getElementsByClassName("val").item(0).innerHTML=String(getRandomArbitrary(89, 91).toFixed(2));
-		document.getElementsByClassName("val").item(i+1).innerHTML=String(val.toFixed(2));
+		document.getElementsByClassName("val").item(i+1).innerHTML=String(val.toFixed(2)); // toFixed == 2 chiffres après la virgule
 
 	}
 
-	chart.update();
+	chart.update(); // charge les nouvelles valeurs
 }
 
-
+// fonction qui change la valeur des formulaires de chaques composants du sang
 function updateChart(chart) {
 
 	for (var i=0; i < chart.data.datasets.length; i++) {
 
 		for (var k = chart.data.datasets[i].data.length ; k >= 0  ; k--) {
 
-			chart.data.datasets[i].data[k+1] = chart.data.datasets[i].data[k];
+			chart.data.datasets[i].data[k+1] = chart.data.datasets[i].data[k]; // permet d'avoir les anciennes valeurs des composants qui restent sur le graphe au fil du temps
 
 		}
 
@@ -202,6 +210,7 @@ function updateChart(chart) {
 
 	chart.update();
 }
+// fonction qui fait défiler le temps sur le graphe à chaques 10 secondes
 function changertmps(chart){
 	temps++
 	for (var i = 0; i < chart.data.labels.length; i++) {
@@ -210,18 +219,12 @@ function changertmps(chart){
 	chart.update();
 }
 
-function RedirectionJavascript(){
-	document.location.href="Telecharger.html"&tabMax;
-
-}
-
-
 // Corps du programme
-initChart(chart);
+initChart(chart); // appel de la fonction pour initialer le graphe et les valeurs
 
 setInterval(function() {
 
-	document.getElementsByClassName("val").item(0).innerHTML=String(getRandomArbitrary(89, 91).toFixed(2));
+	document.getElementsByClassName("val").item(0).innerHTML=String(getRandomArbitrary(89, 91).toFixed(2)); //
 	updateChart(chart);
 	changertmps(chart);
 },1000);
