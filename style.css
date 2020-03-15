@@ -12,7 +12,6 @@
 .line {
     display: flex;
     align-items: center;
-    margin: -5px;
 }
 
 .donnee {
@@ -40,3 +39,4 @@
 #colorAvert {
     color: #FF0000;
 }
+

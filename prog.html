@@ -77,6 +77,10 @@
 		<canvas id="myChart"></canvas>
 	</div>
 
+	<div>
+		<input id="Tele" type="button" name="Telecharger" onclick="RedirectionJavascript()" value="Telecharger les données">
+	</div>
+
 	<script>
 
 		function getRandomArbitrary(min, max) {
@@ -91,6 +95,8 @@
 
 		// timer
 		var temps = 0;
+
+		// Tableau des données
 
 
 		
@@ -199,6 +205,10 @@
 				chart.data.labels[i] = String((temps - i) * 10) + " sec";
 			}
 			chart.update();	
+		}
+
+		function RedirectionJavascript(){
+  			document.location.href="Telecharger.html"; 
 		}
 
 		
