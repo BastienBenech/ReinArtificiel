@@ -73,31 +73,33 @@
 		</div>
 	</div>
 
-	<div style="width: 100%">
+	<!--  -->
+	<div id="chart">
 		<canvas id="myChart"></canvas>
 	</div>
 
 	<div>
 		<input id="Tele" type="button" name="Telecharger" onclick="RedirectionJavascript()" value="Telecharger les données">
 	</div>
+	
+
+	<!-- Début du code JavaScript,  -->
 
 	<script>
 
-		function getRandomArbitrary(min, max) {
-  			return Math.random() * (max - min) + min;
-		}
-
-		
+		// Tableau des données à respecter pour la composition du sang
 		// Protéines, Glucides, Eau, Lipides, Urée, Acide urique
-		var tabMin = new Array(3.2, 8, 8.47, 13, 0, 0);
+		var tabNormeMin = new Array(3.2, 8, 8.47, 13, 0, 0);
+		var tabNormeMax = new Array(7.24, 12, 11.45, 18, 10, 10);
 
-		var tabMax = new Array(7.24, 12, 11.45, 18, 10, 10);
+		// Tableau des données simulées de la composition du sang (avec une plage plus large afin de simuler des erreurs)
+		// Protéines, Glucides, Eau, Lipides, Urée, Acide urique
+		var tabDonneMin = new Array(3, 7, 8, 12, 0, 0);
+		var tabDonneMax = new Array(8, 13, 12, 19, 11, 11);
+
 
 		// timer
 		var temps = 0;
-
-		// Tableau des données
-
 
 		
 		//Graphique
@@ -161,6 +163,11 @@
 		});
 
 
+		function getRandomArbitrary(min, max) {
+  			return Math.random() * (max - min) + min;
+		}
+
+
 		function initChart(chart) {
 
 			for (var i=0; i < chart.data.datasets.length; i++) {
@@ -199,6 +206,8 @@
 
 			chart.update();
 		}
+
+
 		function changertmps(chart){
 			temps++
 			for (var i = 0; i < chart.data.labels.length; i++) {
@@ -207,12 +216,16 @@
 			chart.update();	
 		}
 
+
 		function RedirectionJavascript(){
   			document.location.href="Telecharger.html"; 
 		}
 
-		
+
+		//--------------------------------------------------------------------------------------------------------------
 		// Corps du programme
+		//--------------------------------------------------------------------------------------------------------------
+		
 		initChart(chart);
 
 		setInterval(function() {
