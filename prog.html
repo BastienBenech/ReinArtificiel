@@ -9,11 +9,13 @@
 <body>
 	<h1><center> Benech-Ithurbide Medical </center></h1>
 
+	<!-- Création des formulaires des compositions du sang -->
+
 	<div id="donnees">
 		<div class="line">
 			<p id="debitSang">Débit de sang :</p>
 			<p class="val">...</p>
-			<p>&nbspmL/min</p>
+			<p>&nbspmL/min</p> 	<!-- Renvoie ml/min -->
 		</div>
 
 		<div class="cadre">
@@ -48,7 +50,7 @@
 					<p class="val">...</p>
 					<p class="unite">&nbspdg/L</p>
 				</div>
-			</div>   
+			</div>
 
 		</div>
 
@@ -68,25 +70,27 @@
 					<p class="val">...</p>
 					<p class="unite">&nbspmg/L</p>
 				</div>
-			</div>            
+			</div>
 
 		</div>
 	</div>
 
-	<!--  -->
+	<!-- Case qui contient le Graphique -->
 	<div id="chart">
 		<canvas id="myChart"></canvas>
 	</div>
 
+	<!-- Bouton qui redirige vers la page de telechargement des données -->
 	<div>
 		<input id="Tele" type="button" name="Telecharger" onclick="RedirectionJavascript()" value="Telecharger les données">
 	</div>
-	
+
 
 	<!-- Début du code JavaScript, donc de la partie qui rend le code intéractif et dynamique -->
 
 	<script>
 
+<<<<<<< HEAD
 		//--------------------------------------------------------------------------------------------------------------
 		// Déclaration des variables
 		//--------------------------------------------------------------------------------------------------------------
@@ -175,9 +179,93 @@
 
 		function getRandomArbitrary(min, max) {
   			return Math.random() * (max - min) + min;
+=======
+	function getRandomArbitrary(min, max) {
+		return Math.random() * (max - min) + min;
+	}
+	// Tableau des données à respecter pour la composition du sang
+	// Protéines, Glucides, Eau, Lipides, Urée, Acide urique
+	var tabNormeMin = new Array(3.2, 8, 8.47, 13, 0, 0);
+	var tabNormeMax = new Array(7.24, 12, 11.45, 18, 10, 10);
+
+	// Tableau des données simulées de la composition du sang (avec une plage plus large afin de simuler des erreurs)
+	// Protéines, Glucides, Eau, Lipides, Urée, Acide urique
+	var tabDonneMin = new Array(3, 7, 8, 12, 0, 0);
+	var tabDonneMax = new Array(8, 13, 12, 19, 11, 11);
+
+
+	// timer
+	var temps = 0;
+
+
+	//Graphique
+	var ctx = document.getElementById('myChart').getContext('2d');
+	var chart = new Chart(ctx, {
+		type: 'line', //creation d'un tableau de type ligne
+		data: {
+			labels: ["0 sec","-10 sec","-20 sec","-30 sec","-40 sec"], //initialisation des valeurs en x sur le graphe
+			// Les datasets correspondants à chaques lignes tracées
+			datasets: [{
+				label: 'Protéines',
+				borderColor: 'rgb(255, 99, 132)',
+				fill: false,
+				data: [0,0,0,0,0]
+			},
+			{
+				label: 'Glucides',
+				borderColor: 'rgb(255,127,80)',
+				fill: false,
+				data: [0,0,0,0,0]
+			},
+			{
+				label: 'Eau',
+				borderColor: 'rgb(135,206,235)',
+				fill: false,
+				data: [0,0,0,0,0]
+			},
+			{
+				label: 'Lipides',
+				borderColor: 'rgb(200,205,42)',
+				fill: false,
+				data: [0,0,0,0,0]
+			},
+			{
+				label: 'Urée',
+				borderColor: 'rgb(228,246,8)',
+				fill: false,
+				data: [0,0,0,0,0]
+			},
+			{
+				label: 'Acide urique',
+				borderColor: 'rgb(240,230,140)',
+				fill: false,
+				data: [0,0,0,0,0]
+			},
+
+		]
+	},
+
+
+	// Configuration options
+	options: {
+		legend:{
+			display: true,
+			position: 'bottom' // la légende se situe en bas du graphe
+		},
+		title:{
+			display: true,
+			text: "Analyses du sang" // titre du graphe
+>>>>>>> bfffd7234d0ee0c2cee86e1caf956c5ff433b2e5
 		}
+	}
+});
 
+// methode qui retourne un nombre aléatoire entre des valeurs définis
+function getRandomArbitrary(min, max) {
+	return Math.random() * (max - min) + min;
+}
 
+<<<<<<< HEAD
 		function initChart(chart) {
 
 			for (var i = 0; i < chart.data.datasets.length; i++) {
@@ -186,39 +274,64 @@
 					
 					var val = getRandomArbitrary(tabDonneeMin[i], tabDonneeMax[i]);
 					chart.data.datasets[i].data[k] = val;
+=======
+// initialise les valeurs dans chaques formulaires des compositions et les affiche sur le graphe
+function initChart(chart) {
 
-				}
+	for (var i=0; i < chart.data.datasets.length; i++) {
+>>>>>>> bfffd7234d0ee0c2cee86e1caf956c5ff433b2e5
 
+		for (var k = 0; k < chart.data.datasets[i].data.length; k++) {
+
+<<<<<<< HEAD
 				tabNouvVal[i] = val.toFixed(2);
 				document.getElementsByClassName("val").item(0).innerHTML=String(getRandomArbitrary(89, 91).toFixed(2));
 				document.getElementsByClassName("val").item(i+1).innerHTML=String(val.toFixed(2));
+=======
+			var val = getRandomArbitrary(tabMin[i], tabMax[i]); // appel de la fonction aléatoire
+			chart.data.datasets[i].data[k] = val; // definition d'une valeur aléatoire dans chaques formulaires
+>>>>>>> bfffd7234d0ee0c2cee86e1caf956c5ff433b2e5
 
-			}
-
-			chart.update();
 		}
 
+		document.getElementsByClassName("val").item(0).innerHTML=String(getRandomArbitrary(89, 91).toFixed(2));
+		document.getElementsByClassName("val").item(i+1).innerHTML=String(val.toFixed(2)); // toFixed == 2 chiffres après la virgule
 
-		function updateChart(chart) {
+	}
 
+<<<<<<< HEAD
 			for (var i = 0; i < chart.data.datasets.length; i++) {
 
 				for (var k = chart.data.datasets[i].data.length; k >= 0; k--) {
 					
 					chart.data.datasets[i].data[k+1] = chart.data.datasets[i].data[k];
+=======
+	chart.update(); // charge les nouvelles valeurs
+}
 
-				}
+// fonction qui change la valeur des formulaires de chaques composants du sang
+function updateChart(chart) {
+>>>>>>> bfffd7234d0ee0c2cee86e1caf956c5ff433b2e5
 
+	for (var i=0; i < chart.data.datasets.length; i++) {
+
+<<<<<<< HEAD
 				tabNouvVal[i] = getRandomArbitrary(tabDonneeMin[i], tabDonneeMax[i]);
 				chart.data.datasets[i].data[0] = tabNouvVal[i];
 				document.getElementsByClassName("val").item(i+1).innerHTML=String(tabNouvVal[i].toFixed(2));
+=======
+		for (var k = chart.data.datasets[i].data.length ; k >= 0  ; k--) {
+>>>>>>> bfffd7234d0ee0c2cee86e1caf956c5ff433b2e5
 
-			}
+			chart.data.datasets[i].data[k+1] = chart.data.datasets[i].data[k]; // permet d'avoir les anciennes valeurs des composants qui restent sur le graphe au fil du temps
 
-			chart.update();
 		}
 
+		var val = getRandomArbitrary(tabMin[i], tabMax[i]);
+		chart.data.datasets[i].data[0] = val;
+		document.getElementsByClassName("val").item(i+1).innerHTML=String(val.toFixed(2));
 
+<<<<<<< HEAD
 		function testerErreur(chart) {
 
 			for (var i = 0; i < tabNouvVal.length; i++) {
@@ -281,16 +394,31 @@
 
   			window.open("Telecharger.html", "_blank"); 
 		}
+=======
+	}
 
+	chart.update();
+}
+// fonction qui fait défiler le temps sur le graphe à chaques 10 secondes
+function changertmps(chart){
+	temps++
+	for (var i = 0; i < chart.data.labels.length; i++) {
+		chart.data.labels[i] = String((temps - i) * 10) + " sec";
+	}
+	chart.update();
+}
+>>>>>>> bfffd7234d0ee0c2cee86e1caf956c5ff433b2e5
 
-		//--------------------------------------------------------------------------------------------------------------
-		// Corps du programme
-		//--------------------------------------------------------------------------------------------------------------
-		
-		initChart(chart);
+// Corps du programme
+initChart(chart); // appel de la fonction pour initialer le graphe et les valeurs
 
-		setInterval(function() {
+function RedirectionJavascript(){
+	document.location.href="Telecharger.html";
 
+}
+setInterval(function() {
+
+<<<<<<< HEAD
 			document.getElementsByClassName("val").item(0).innerHTML=String(getRandomArbitrary(89, 91).toFixed(2));
 
 			updateChart(chart);
@@ -305,7 +433,13 @@
 			changertmps(chart);
 
 		},10000);
+=======
+	document.getElementsByClassName("val").item(0).innerHTML=String(getRandomArbitrary(89, 91).toFixed(2)); //
+	updateChart(chart);
+	changertmps(chart);
+},1000);
+>>>>>>> bfffd7234d0ee0c2cee86e1caf956c5ff433b2e5
 
-	</script>
+</script>
 </body>
 </html>
