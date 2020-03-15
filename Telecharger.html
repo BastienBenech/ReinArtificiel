@@ -4,7 +4,6 @@
  	<title>Telechargement</title>
 </HEAD>
 <BODY>
-<<<<<<< HEAD
 	<script language="JavaScript">
 
 		composants = new Array("Nom :","Débit sang","Protéines","Glucide","Eau","Lipides","Urée","Acide urique");
@@ -26,7 +25,7 @@
 	<h1><center> Benech-Ithurbide Medical </center></h1>
 
 	<div>
-		<Table style="border: 1px double black;">
+		<Table border>
 			<tr>
 				<script language="JavaScript">
 	
@@ -48,35 +47,10 @@
 				</script>
 			</tr>
 		</table>
+		<div>
+			<input type="button" onclick="print()" value="Imprimer" >
+		</div>
 	</div>
 	
-=======
-<script language="JavaScript">
-	composants = new Array("Nom :","Débit sang","Protéines","Glucide","Eau","Lipides","Urée","Acide urique");
-	chiffres = new Array("Taux",0,0,0,0,0,0,0);
-	</script>
-	<Table>
-	<tr>
-		<script language="JavaScript">
-		for (i = 0; i < composants.length; i++)
-		{
-			document.write("<td>",composants[i],"</td>")
-		}
-		</script>
-	</tr>
-	<tr>
-		<script language="JavaScript">
-		for (i = 0; i < chiffres.length; i++)
-		{
-			document.write("<td>",tabMax[i],"</td>")
-		}
-
-		</script>
-	</tr>
-</table>
-<div>
-  <input type="button" onclick="print()" value="Imprimer" >
-</div>
->>>>>>> bfffd7234d0ee0c2cee86e1caf956c5ff433b2e5
 </BODY>
 </HTML>
